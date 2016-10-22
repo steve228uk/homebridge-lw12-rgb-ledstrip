@@ -4,7 +4,7 @@ module.exports = function (ip) {
     var module = {};
 
 	module.ip = ip;
-	module.port = 5000;
+	module.port = 5577;
 
 	module.state = {
 		power : false,
