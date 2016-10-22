@@ -1,10 +1,10 @@
 var dgram = require('dgram');
 
-module.exports = function (ip) {
+module.exports = function (ip, port) {
     var module = {};
 
 	module.ip = ip;
-	module.port = 5577;
+	module.port = port;
 
 	module.state = {
 		power : false,
