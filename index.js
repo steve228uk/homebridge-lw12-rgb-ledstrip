@@ -23,7 +23,7 @@ module.exports = function(homebridge){
  */
 function LW12_RGB(log, config) {
     //create instance for one stripe to store state
-    this.stripe = require("./lw12-mod.js")(config.ip)
+    this.stripe = require("./lw12-mod.js")(config.ip, config.port);
 
     this.log = log;
     this.name                          = config.name;
