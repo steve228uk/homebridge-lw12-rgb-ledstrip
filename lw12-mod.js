@@ -1,4 +1,4 @@
-var dgram = require('dgram');
+var net = require('net');
 
 module.exports = function (ip, port) {
     var module = {};
@@ -87,22 +87,21 @@ module.exports = function (ip, port) {
 			callback(success)
 		});
 	}
-  
-    function sendHexString(hexMessage, callback) {
-		var message = new Buffer(hexMessage, 'hex')
-		var client = dgram.createSocket('udp4');
 
-		client.send(message, 0, message.length, module.port, module.ip, function(err, bytes) {
-			if (err) {
-				callback(false)
-				console.log('UDP ERROR ' + module.ip +':'+ module.port);
-				//throw err;
-			} else {
-				console.log('UDP message ' + hexMessage + ' sent to ' + module.ip +':'+ module.port);
-				client.close();
-				callback(true);
-			}
-		});
+    function sendHexString(hexMessage, callback) {
+		var message = new Buffer(hexMessage, 'hex');
+
+        var client = new net.Socket();
+        client.connect(module.port, module.ip, function() {
+        	console.log('Message ' + hexMessage + ' sent to ' + module.ip +':'+ module.port);
+        	client.write(message);
+        });
+
+        client.on('data', function(data) {
+        	console.log('Received: ' + data);
+        	client.destroy(); // kill client after server's response
+        });
+
     };
 
 	/**
